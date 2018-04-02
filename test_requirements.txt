@@ -5,7 +5,7 @@ coverage>=4.4.1
 mock>=1.0.1
 flake8>=2.1.0
 codecov>=2.0.0
-pytest-django
+pytest-django==3.1.2
 pytest-cov
 pytest-sugar
 pytest-xdist
