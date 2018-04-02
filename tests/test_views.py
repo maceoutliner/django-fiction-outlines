@@ -1170,6 +1170,74 @@ class LocationInstanceDetailTest(FictionOutlineViewTestCase):
             assert self.l1int == self.get_context('location_instance')
 
 
+class LocationInstanceCreateTest(FictionOutlineViewTestCase):
+    '''
+    Tests for Location Instance update.
+    '''
+    def test_login_required(self):
+        '''
+        Login is required.
+        '''
+        self.assertLoginRequired('fiction_outlines:location_instance_create',
+                                 location=self.l1.pk)
+
+    def test_object_permissions(self):
+        '''
+        Ensure unauthorized users cannot access.
+        '''
+        for user in [self.user3, self.user2]:
+            with self.login(username=user.username):
+                self.get('fiction_outlines:location_instance_create',
+                         location=self.l1.pk)
+                self.response_302()
+                assert 'accounts/login' in self.last_response['location']
+                before_create = self.l1.locationinstance_set.count()
+                self.post('fiction_outlines:location_instance_create',
+                          location=self.l1.pk, data={
+                              'outline': self.o2.pk,
+                          })
+                assert before_create == LocationInstance.objects.filter(location=self.l1).count()
+
+    def test_invalid_post(self):
+        '''
+        Test authorized user but invalid outline selection.
+        '''
+        before_create = self.l1.locationinstance_set.count()
+        with self.login(username=self.user1.username):
+            self.post('fiction_outlines:location_instance_create',
+                      location=self.l1.pk, data={
+                          'outline': self.o3.pk,
+                      })
+            self.response_200()
+            form = self.get_context('form')
+            assert len(form.errors) == 1
+            assert before_create == LocationInstance.objects.filter(location=self.l1).count()
+            try:
+                with transaction.atomic():
+                    with pytest.raises(IntegrityError):
+                        self.post('fiction_outlines:location_instance_create',
+                                  location=self.l1.pk, data={
+                                      'outline': self.o2.pk
+                                  })
+            except IntegrityError:
+                pass  # Have to do this otherwise the integrity error breaks the test run.
+
+    def test_valid_post(self):
+        before_create = self.l1.locationinstance_set.count()
+        o4 = Outline(title='Another outline', description='I did a thing!', user=self.user1)
+        o4.save()
+        with self.login(username=self.user1.username):
+            self.assertGoodView('fiction_outlines:location_instance_create',
+                                location=self.l1.pk)
+            self.assertInContext('form')
+            self.post('fiction_outlines:location_instance_create',
+                      location=self.l1.pk, data={
+                          'outline': o4.pk,
+                      })
+            assert LocationInstance.objects.filter(location=self.l1).count() - before_create == 1
+            assert o4.locationinstance_set.count() == 1
+
+
 class LocationInstanceUpdateTest(FictionOutlineViewTestCase):
     '''
     Tests for Location Instance update.

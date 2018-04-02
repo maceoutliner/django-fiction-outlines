@@ -520,6 +520,7 @@ class LocationInstanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, ge
 
     def form_valid(self, form):
         outline = form.instance.outline
+        form.instance.location = self.location
         if not (self.request.user.has_perm('fiction_outlines.edit_location', self.location) and
                 self.request.user.has_perm('fiction_outlines.edit_outline', outline)):
             return HttpResponseForbidden()
