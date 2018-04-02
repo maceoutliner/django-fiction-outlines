@@ -20,11 +20,13 @@ The principle that each story thread (or arc) is one of four primary types.
    * Character: The journey and change within a character for better or worse.
    * Event: An external event that must be dealt with.
 
-This is author `Mary Robinette Kowal's`_ version of Orson Scott Card's orgiinal `M.I.C.E. quotient`_, and I think her version is easier to follow.
+This is author `Mary Robinette Kowal's`_ [#kowal_disclaimer]_ version of Orson Scott Card's orgiinal `M.I.C.E. quotient`_, and I think her version is easier to follow.
 
 .. _Mary Robinette Kowal's: http://www.writingexcuses.com/tag/mace-quotient/
 
 .. _M.I.C.E. quotient: http://www.writersdigest.com/writing-articles/by-writing-goal/write-first-chapter-get-started/4-story-structures-that-dominate-novels
+
+.. [#kowal_disclaimer] This project is neither associated with, nor endorsed by, Mary Robinette Kowal or Orson Scott Card.
 
 .. _nesting:
 
@@ -42,7 +44,7 @@ Again, `from Kowal`_, that story threads, regardless of MACE type, should be res
 Seven Point Story Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This one comes from author Dan Wells, whose `talk on story structure`_ has helped countless writers out there. Essentially, a well-crafted arc consists of seven milestones:
+This one comes from author Dan Wells, [#wells_disclaimer]_ whose `talk on story structure`_ has helped countless writers out there. Essentially, a well-crafted arc consists of seven milestones:
 
 .. _talk on story structure: https://www.youtube.com/watch?v=KcmiqQ9NpPE
 
@@ -55,6 +57,8 @@ This one comes from author Dan Wells, whose `talk on story structure`_ has helpe
 7. Resolution: Completion of the arc. Should be the opposite state of the hook.
 
 Try/Fail cycles should be inserted in-between milestones to direct the pacing and ensure the story earns its milestone moments.
+
+.. [#wells_disclaimer] This project is neither associated with, nor endorsed by, Dan Wells.
 
 Intro to ``fiction_outlines`` Models
 ------------------------------------
