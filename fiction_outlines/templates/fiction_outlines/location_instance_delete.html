@@ -1,0 +1,17 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Delete instance for location: " %}{{ location_instance.location.name }} {% trans "and outline" %} {{ location_instance.outline.title }}{% endblock %}
+
+{% block content %}
+<h4>{% trans "Are you sure?" %}</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class='warning callout'>
+        <p>{% trans "Are you sure you want to remove your location named " %}{{ location_instance.location.name }} {% trans "from outline titled" %} <em>{{ location_instance.outline.title }}</em>? {% blocktrans %}There is <strong>no undo</strong> for this.{% endblocktrans %}</p>
+    </div>
+    <a class='button' href="{{ location_instance.get_absolute_url }}">{% trans "Cancel" %}</a>
+    <button type='submit' class='button'>{% trans "Delete" %}</button>
+</form>
+
+
+{% endblock %}

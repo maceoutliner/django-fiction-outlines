@@ -1,0 +1,19 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Your instances for " %}{{ character.name }}{% endblock %}
+
+{% block content %}
+
+<ul>
+    {% for cint in character_instance_list %}
+
+    <li><a href="{{ cint.get_absolute_url }}">{{ character.name }}</a> [{% trans "Outline: " %}<a href="{{ cint.outline.get_absolute_url }}">{{ cint.outline.title }}</a>]</li>
+
+        {% empty %}
+    
+    <li>{% trans "You have not associated any characters with an outline yet." %}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

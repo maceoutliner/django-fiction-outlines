@@ -1,0 +1,49 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{{ outline.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ outline.title }}</h2>
+
+<h3>{% trans "Description" %}</h3>
+
+<p>{{ outline.description }}</p>
+
+<strong>{% trans "Tags: "%}</strong>
+<ul class='tag_list'>
+    {% for tag in outline.tags.all %}
+    <li>{{ tag }}</li>
+    {% empty %}
+    <li>{% trans "None" %}</li>
+    {% endfor %}
+</ul>
+
+<h3>{% trans "Cast" %}</h3>
+<ul>
+{% for cint in outline.characterinstance_set.all %}
+<li><a href="{{ cint.get_absolute_url }}">{{ cint.character.name }}</a></li>
+    {% empty %}
+    <li>{% trans "No characters yet" %}</li>
+    {% endfor %}
+</ul>
+
+<h3>{% trans "Settings" %}</h3>
+<ul>
+    {% for lint in outline.locationinstance_set.all %}
+    <li><a href="{{ lint.get_absolute_url }}">{{ lint.location.name }}</a></li>
+    {% empty %}
+    <li>{% trans "No locations yet." %}</li>
+    {% endfor %}
+</ul>
+
+<h3>{% trans "Arcs" %}</h3>
+<ul>
+    {% for arc in outline.arc_set.all %}
+    <li><a href="{{ arc.get_absolute_url }}">{{ arc.name }}</a> ({% trans arc.get_mace_type.display %})</li>
+    {% empty %}
+    <li>{% trans "No arcs defined yet." %}</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'fiction_outlines:outline_list' %}">{% trans "Back to outline list" %}</a></p>
+{% endblock %}

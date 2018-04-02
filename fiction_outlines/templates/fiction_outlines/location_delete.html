@@ -1,0 +1,25 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Delete location: " %}{{ location.name }}{% endblock %}
+
+{% block content %}
+<h4>{% trans "Are you sure?" %}</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class='warning callout'>
+        <p>{% trans "Are you sure you want to delete your location named " %}<em>{{ location.name }}</em>? {% blocktrans %}There is <strong>no undo</strong> for this.{% endblocktrans %}</p>
+        {% if location.locationinstance_set.all|length %}
+        <p>{% trans "This action will also remove the location from the following outlines:" %}</p>
+        <ul>
+            {% for instance in location.locationinstance_set.all %}
+            <li><a href="{{ instance.outline.get_absolute_url }}">{{ instance.outline.title }}</a> [<a href="{{ instance.get_absolute_url }}">{% trans "Details" %}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <a class='button' href="{{ location.get_absolute_url }}">{% trans "Cancel" %}</a>
+    <button type='submit' class='button'>{% trans "Delete" %}</button>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Delete outline item: " %}{{ storynode.name }}{% endblock %}
+
+{% block content %}
+<h4>{% trans "Are you sure?" %}</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class='warning callout'>
+        <p>{% trans "Are you sure you want to delete outline item " %}"{{ storynode.name }}" {% trans "for outline titled " %}<em>{{ storynode.outline.title }}</em>?</p>
+        <p>{% trans "This action will also affect the following records:" %}</p>
+        <ul>
+            {% if annotated_list %}
+            <li><strong>{% trans "The following child items WILL ALSO be deleted:" %}</strong>
+                
+                   
+                    {% for item, info in annotated_list %}
+                    {% if info.open %}
+                    <ul><li>
+                    {% else %}
+                    </li><li>
+                    {% endif %}
+                        {% if item == storynode %}
+                        {% trans "This item" %}
+                        {% else %}
+                        <a href="{{ item.get_absolute_url }}">{{ item.headline }}</a>
+                        {% endif %}
+                    {% for close in info.close %}
+                        </li></ul>
+                    {% endfor %}
+                    {% endfor %}
+            </li>
+            {% endif %}
+            {% if storynode.all_characters %}
+            <li>{% blocktrans count characters=storynode.all_characters|length %}One character will no longer be associated with this item.{% plural %}{{ characters }} will no longer be associated with this item.{% endblocktrans %}</li>
+            {% endif %}
+            {% if storynode.all_locations %}
+            <li>{% blocktrans count locations=storynode.all_locations|length %}One location will no longer be associated with this item.{% plural %}{{ locations }} will no longer be associated with this item.{% endblocktrans %}</li>
+            {% endif %}
+            {% if storynode.arcelementnode_set %}
+            <li>{% blocktrans count arcnodes=storynode.arcelementnode_set.all|length|add:"-1" %}One arc item will no longer be associated with this outline item.{% plural %}{{ arcnodes }} arc items will no longer be associated with this outline item.{% endblocktrans %}</li>
+            {% endif %}
+        </ul>
+    </div>
+    <a class='button' href="{{ storynode.get_absolute_url %}">{% trans "Cancel" %}</a>
+    <button type='submit' class='button'>{% trans "Delete" %}</button>
+</form>
+
+
+{% endblock %}

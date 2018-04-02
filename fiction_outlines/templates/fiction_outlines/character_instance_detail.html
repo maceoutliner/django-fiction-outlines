@@ -1,0 +1,20 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Instance of " %}{{ character_instance.character.name }}{% trans " for outline: " %}{{ character_instance.outline.title }}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Instance of "%}<a href="{{ character_instance.character.get_absolute_url }}">{{ character_instance.character.name }}</a>{% trans " for outline: "%}<a href="{{ character_instance.outline.get_absolute_url }}">{{ character_instance.outline.title }}</a></h2>
+
+<dl>
+    <dt>{% trans "Main Character: " %}</dt><dd>{{ character_instance.main_character|yesno }}</dd>
+    <dt>{% trans "POV Character: " %}</dt><dd>{{ character_instance.pov_character|yesno }}</dd>
+    <dt>{% trans "Protagonist: " %}</dt><dd>{{ character_instance.protagonist|yesno }}</dd>
+    <dt>{% trans "Antagonist: " %}</dt><dd>{{ character_instance.antagonist|yesno }}</dd>
+    <dt>{% trans "Obstacle: " %}</dt><dd>{{ character_instance.obstacle|yesno }}</dd>
+    <dt>{% trans "Villain: " %}</dt><dd>{{ character_instance.villain|yesno }}</dd>
+<dt>{% trans "Added: " %}</dt><dd>{{ character_instance.created }}</dd>
+<dt>{% trans "Modified: " %}</dt><dd>{{ character_instance.modified %}</dd>
+</dl>
+
+<p><a href="{{ character_instance.character.get_absolute_url }}">{% trans "Back to character details" %}</a></p>
+{% endblock %}

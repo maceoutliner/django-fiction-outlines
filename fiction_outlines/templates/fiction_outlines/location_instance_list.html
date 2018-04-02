@@ -1,0 +1,19 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Your instances of " %}{{ location.name }}{% endblock %}
+
+{% block content %}
+
+<ul>
+    {% for lint in location_instance_list %}
+
+    <li><a href="{{ lint.get_absolute_url }}">{{ location.name }}</a> [{% trans "Outline: " %}<a href="{{ lint.outline.get_absolute_url }}">{{ lint.outline.title }}</a>]</li>
+
+        {% empty %}
+    
+    <li>{% trans "You have not associated this location with an outline yet." %}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

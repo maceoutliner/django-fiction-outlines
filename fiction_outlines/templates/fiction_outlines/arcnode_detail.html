@@ -1,0 +1,57 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{{ arcnode.headline }}{% endblock %}
+
+{% block content %}
+<h2>{{ arcnode.headline }} ({% trans arcnode.get_arc_element_type.display %})</h2>
+
+<h3>{% trans "Description" %}</h3>
+
+<p>{{ arcnode.description }}</p>
+
+<h3>{% trans "Characters" %}</h3>
+<ul>
+    {% for cint in arcnode.associated_characters.all %}
+    <li><a href="{{ cint.get_absolute_url }}">{{ cint.character.name }}</a></li>
+    {% empty %}
+    <li>{% trans "None" %}</li>
+    {% endfor %}
+</ul>
+<h3>{% trans "Locations" %}</h3>
+<ul>
+    {% for lint in arcnode.associated_locations.all %}
+    <li><a href="{{ lint.get_absolute_url }}">{{ lint.location.name }}</a></li>
+    {% empty %}
+    <li>{% trans "None" %}</li>
+    {% endfor %}
+</ul>
+{% if annotated_list %}
+<h3>{% trans "Child Items" %}</h3>
+{% for item, info in annotated_list %}
+{% if info.open %}
+<ul><li>
+{% else %}
+</li><li>
+{% endif %}
+    {% if item == arcnode %}
+    {% trans "This item" %}
+    {% else %}
+            <dl>
+                <dt>{% trans "Type: " %}</dt>
+                <dd>{% trans item.get_arc_element_type_display %}</dd>
+                <dt>{% trans "Description excerpt: " %}</dt>
+                <dd>{{ item.headline }}</dd>
+                <dt>{% trans "Num characters: " %}</dt>
+                <dd>{{ item.characterinstance_set.all|length }}</dd>
+                <dt>{% trans "Num locations: " %}</dt>
+                <dd>{{ item.locationinstance_set.all|length }}</dd>
+            </dl>
+    {% endif %}
+            {% for close in info.close %}
+        </li></ul>
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+<p><a href="{{ arcnode.arc.get_absolute_url }}">{% trans "Back to arc details" %}</a></p>
+{% endblock %}

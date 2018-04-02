@@ -1,0 +1,39 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{{ arc.name }}{% endblock %}
+
+{% block content %}
+<h2>{{ arc.name }} ({% trans arc.get_mace_type_display %})</h2>
+
+<h3>{% trans "Description" %}</h3>
+
+<p>{{ arc.description }}</p>
+
+<h3>{% trans "Arc Structure" %}</h3>
+{% for item, info in annotated_list %}
+{% if info.open %}
+<ul><li>
+{% else %}
+</li><li>
+{% endif %}
+    {% if item.depth == 0 %}
+    {% trans "This arc" %}
+    {% else %}
+            <dl>
+                <dt>{% trans "Type: " %}</dt>
+                <dd>{% trans item.get_arc_element_type_display %}</dd>
+                <dt>{% trans "Description excerpt: " %}</dt>
+                <dd>{{ item.description|truncatewords:50 }}</dd>
+                <dt>{% trans "Num characters: " %}</dt>
+                <dd>{{ item.characterinstance_set.all|length }}</dd>
+                <dt>{% trans "Num locations: " %}</dt>
+                <dd>{{ item.locationinstance_set.all|length }}</dd>
+            </dl>
+     {% endif %}
+            {% for close in info.close %}
+        </li></ul>
+{% endfor %}
+{% endfor %}
+
+<p><a href="{{ outline.get_absolute_url }}">{% trans "Back to outline" %}</a></p>
+{% endblock %}

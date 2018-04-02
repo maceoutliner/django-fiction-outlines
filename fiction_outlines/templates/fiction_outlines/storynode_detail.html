@@ -1,0 +1,66 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{{ storynode.name }}{% endblock %}
+
+{% block content %}
+<h2>{{ storynode.name }} ({% trans storynode.get_story_element_type.display %})</h2>
+
+<h3>{% trans "Description" %}</h3>
+
+<p>{{ storynode.description }}</p>
+
+<h3>{% trans "Characters" %}</h3>
+<ul>
+    {% for cint in storynode.all_characters %}
+    <li><a href="{{ cint.get_absolute_url }}">{{ cint.character.name }}</a></li>
+    {% empty %}
+    <li>{% trans "None" %}</li>
+    {% endfor %}
+</ul>
+<h3>{% trans "Locations" %}</h3>
+<ul>
+    {% for lint in storynode.all_locations %}
+    <li><a href="{{ lint.get_absolute_url }}">{{ lint.location.name }}</a></li>
+    {% empty %}
+    <li>{% trans "None" %}</li>
+    {% endfor %}
+</ul>
+<h3>{% trans "Arc Items" %}</h3>
+<p>{% trans "Arc items associated with this outline item." %}</p>
+<ul>
+    {% for arcnode in storynode.arcelementnode_set.all %}
+    <li><a href="{{ arcnode.get_absolute_url }}">{{ arcnode.headline }}</a></li>
+    {% empty %}
+    <li>{% trans "None" %}</li>
+    {% endfor %}
+    </ul>
+{% if annotated_list %}
+<h3>{% trans "Child Items" %}</h3>
+{% for item, info in annotated_list %}
+{% if info.open %}
+<ul><li>
+{% else %}
+</li><li>
+{% endif %}
+    {% if item == storynode %}
+    {% trans "This item" %}
+    {% else %}
+            <dl>
+                <dt>{% trans "Type: " %}</dt>
+                <dd>{% trans item.get_story_element_type_display %}</dd>
+                <dt>{% trans "Name: " %}</dt>
+                <dd>{{ item.name }}</dd>
+                <dt>{% trans "Num characters: " %}</dt>
+                <dd>{{ item.associated_character.all|length }}</dd>
+                <dt>{% trans "Num locations: " %}</dt>
+                <dd>{{ item.associated_locations.all|length }}</dd>
+            </dl>
+    {% endif %}
+            {% for close in info.close %}
+        </li></ul>
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+<p><a href="{{ storynode.outline.get_absolute_url }}">{% trans "Back to outline details" %}</a></p>
+{% endblock %}

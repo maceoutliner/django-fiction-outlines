@@ -1,0 +1,13 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+{% block head_title %}{% trans "Create a new item for outline " %}<em>{{ outline.title }}</em>{% endblock %}
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <a class='button' href="{{ outline.get_absolute_url }}">{% trans "Cancel" %}</a>
+<button type="submit">{% trans "Create" %}</button>
+    </form>
+{% endblock %}

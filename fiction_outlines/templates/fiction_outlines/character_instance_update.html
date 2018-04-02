@@ -1,0 +1,13 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+{% block head_title %}{% trans "Editing instance for character " %}{{ character_instance.character.name }} {% trans "and outline "%}{{ character_instance.outline.title }}{% endblock %}
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <a class='button' href="{{ character_instance.get_absolute_url }}">{% trans "Cancel" %}</a>
+<button type="submit">{% trans "Update" %}</button>
+    </form>
+{% endblock %}

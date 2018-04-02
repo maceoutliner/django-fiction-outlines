@@ -1,0 +1,21 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Your outlines" %}{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'fiction_outlines:outline_create' %}">{% trans "Create an Outline" %}</a>
+
+<ul>
+    {% for outline in outline_list %}
+
+    <li><a href="{{ outline.get_absolute_url }}">{{ outline.title }}</a> [{% trans "Series: " %}{% for series in outline.series.all %}<a href="{{ series.get_absolute_url }}">{{ series.title }}, {% empty %}None, {% endfor %}{% blocktrans count arcs=outline.arc_set.all|length %}One arc, {% plural %}{{ arcs }} arcs, {% endblocktrans %}{% blocktrans count characters=outline.characterinstance_set|length %}One character{% plural %}{{ characters }} characters{% endblocktrans %}, {% blocktrans count locations=outline.locationinstance_set.all|length %}and one location{% plural %}and {{ locations }} locations{% endblocktrans %}]</li>
+
+        {% empty %}
+    
+    <li>{% trans "You don't have any outlines yet. Would you like to " %}<a href="{% url 'fiction_outlines:outline_create' %}">{% trans "create one" %}</a>?</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

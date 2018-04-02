@@ -1,0 +1,22 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Delete arc: " %}{{ arc.name }}{% endblock %}
+
+{% block content %}
+<h4>{% trans "Are you sure?" %}</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class='warning callout'>
+        <p>{% trans "Are you sure you want to delete arc " %}{{ arc.name }} {% trans "for outline titled " %}<em>{{ arc.outline.title }}</em>?</p>
+        <p>{% trans "This action will also affect the following records:" %}</p>
+        <ul>
+            <li>{% blocktrans count elements=arc.arcelementnode_set.all|length|add:"-1" %}One or less arc structural elements will be deleted.{% plural %}{{ elements }} arc structural elements will be deleted.{% endblocktrans %}</li>
+            <li>{% trans "Any outline beats, scenes, chapters, etc. will no longer be associated with this arc." %}</li>
+        </ul>
+    </div>
+    <a class='button' href="{{ arc.get_absolute_url }}">{% trans "Cancel" %}</a>
+    <button type='submit' class='button'>{% trans "Delete" %}</button>
+</form>
+
+
+{% endblock %}

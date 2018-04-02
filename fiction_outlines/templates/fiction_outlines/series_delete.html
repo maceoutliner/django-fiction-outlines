@@ -1,0 +1,17 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Delete series: " %}{{ series.title }}{% endblock %}
+
+{% block content %}
+<h4>{% trans "Are you sure?" %}</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class='warning callout'>
+        <p>{% trans "Are you sure you want to delete your series titled " %}<em>{{ series.title }}</em>? {% blocktrans %}There is <strong>no undo</strong> for this.{% endblocktrans %}</p>
+    </div>
+    <a class='button' href="{{ series.get_absolute_url }}">{% trans "Cancel" %}</a>
+    <button type='submit' class='button'>{% trans "Delete" %}</button>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Your arcs for outline " %}{{ outline.title }}{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'fiction_outlines:arc_create' outline=outline.pk %}">{% trans "Create an arc for " %}{{ outline.title }}</a>
+
+<ul>
+    {% for arc in arc_list %}
+
+    <li><a href="{{ arc.get_absolute_url }}">{{ arc.name }}</a> [{% trans "MACE type: "%}{% trans arc.get_mace_type_display %}, {% blocktrans count arc_elements=arc.arcelementnode_set.all|length %}and one element.{% plural %}and {{ arc_elements }} elements.{% endblocktrans %}]</li>
+
+        {% empty %}
+    
+    <li>{% trans "You have no arcs for this outline yet. Would you like to " %}<a href="{% url 'fiction_outlines:arc_create' outline=outline.pk %}">{% trans "create one?" %}</a>?</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

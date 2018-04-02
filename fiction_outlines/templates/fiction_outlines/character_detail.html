@@ -1,0 +1,42 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{{ character.name }}{% endblock %}
+
+{% block content %}
+<h2>{{ character.name }}</h2>
+
+<h3>{% trans "Description" %}</h3>
+
+<p>{{ character.description }}</p>
+
+<strong>{% trans "Tags: "%}</strong>
+<ul class='tag_list'>
+    {% for tag in character.tags.all %}
+    <li>{{ tag }}</li>
+    {% empty %}
+    <li>{% trans "None" %}</li>
+    {% endfor %}
+</ul>
+
+<h3>{% trans "Series" %}</h3>
+<ul>
+    {% for series in character.series_set.all %}
+    <li><a href="{{ series.get_absolute_url }}">{{ series.title }}</a></li>
+    {% empty %}
+    <li>{% trans "No series" %}</li>
+    {% endfor %}
+</ul>
+
+<h3>{% trans "Outlines and Instances" %}</h3>
+<ul>
+{% for cint in character.characterinstance_set.all %}
+<li><a href="{{ cint.get_absolute_url }}">{{ cint.outline.title }}</a></li>
+{% empty %}
+<li>{% trans "No outlines" %}</li>
+{% endfor %}
+</ul>
+
+
+
+<p><a href="{% url 'fiction_outlines:character_list' %}">{% trans "Back to character list" %}</a></p>
+{% endblock %}

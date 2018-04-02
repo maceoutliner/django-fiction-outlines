@@ -1,0 +1,13 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+{% block head_title %}{% trans "Edit arc " %}{{ arc.name }}{% trans " for " %}{{ arc.outline.title }}{% endblock %}
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <a class='button' href="{{ arc.get_absolute_url }}">{% trans "Cancel" %}</a>
+<button type="submit">{% trans "Update" %}</button>
+    </form>
+{% endblock %}

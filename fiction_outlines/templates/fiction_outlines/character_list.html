@@ -1,0 +1,24 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Your characters" %}{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'fiction_outlines:character_create' %}">Create Character</a>
+
+<ul>
+    {% for character in character_list %}
+
+    <li><a href="{{ character.get_absolute_url }}">{{ character.name }}</a> [{% trans "Series: " %}{% for series in character.series.all %}<a href="{{ series.get_absolute_url }}">{{ series.title }}</a>, {% empty %}None, {% endfor %}{% blocktrans count outlines=character.characterinstance_set.all|length %}One outline{% plural %}{{ outlines }} outlines{% endblocktrans %}]
+
+        <p>{{ character.description|truncatewords:50 }}</p>
+    </li>
+
+        {% empty %}
+    
+    <li>{% trans "You don't have any characters defined yet. Would you like to " %}<a href="{% url 'fiction_outlines:character_create' %}">{% trans "create one" %}</a>?</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

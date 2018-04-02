@@ -1,0 +1,47 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Delete outline: " %}{{ outline.title }}{% endblock %}
+
+{% block content %}
+<h4>{% trans "Are you sure?" %}</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class='warning callout'>
+        <p>{% trans "Are you sure you want to delete your outline titled " %}<em>{{ outline.title }}</em>? {% blocktrans count storynodes=outline.storyelementnode_set.all|length %}It's mostly empty. {% plural %}This outline consists of {{ storynodes }} items. {% endblocktrans %}{% blocktrans %}There is <strong>no undo</strong> for this.{% endblocktrans %}</p>
+        <p>{% trans "This action will also affect the following records:" %}</p>
+        <ul>
+            <li>{% trans "These characters will remain, but their roles in this story will be removed." %}
+                <ul>
+                    {% for cint in outline.characterinstance_set.all %}
+                    <li><a href="{{ cint.get_absolute_url }}">{{ cint.character.name }}</a></li>
+                    {% empty %}
+                    <li>{% trans "None" %}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li>{% trans "These locations will remain but they will no longer be associated with this story." %}
+                <ul>
+                    {% for lint in outline.locationinstance_set.all %}
+                    <li><a href="{{ lint.get_absolute_url }}">{{ lint.location.name }}</a></li>
+                    {% empty %}
+                    <li>{% trans "None" %}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li>{% trans "These arcs will be deleted as well as all their arc elements." %}
+                <ul>
+                    {% for arc in outline.arc_set.all %}
+                    <li><a href="{{ arc.get_absolute_url }}">{{ arc.name }}</a> ({% blocktrans count elements=arc.arcelementnode_set.all|length %}One element{% plural %}{{ elements-1 }} elements{% endblocktrans %})</li>
+                    {% empty %}
+                    <li>{% trans "None" %}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <a class='button' href="{{ outline.get_absolute_url }}">{% trans "Cancel" %}</a>
+    <button type='submit' class='button'>{% trans "Delete" %}</button>
+</form>
+
+
+{% endblock %}

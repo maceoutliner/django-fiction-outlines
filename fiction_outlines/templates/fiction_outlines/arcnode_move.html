@@ -1,0 +1,15 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+{% block head_title %}{% trans "Move arc item" %}{{ arcnode.headline }}{% trans " for " %}{{ arcnode.arc.name }}{% endblock %}
+{% block content %}
+
+<h2>{% trans "Moving arc item of type " %}{{ arcnode.get_arc_element_type_display }}</h2>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <a class='button' href="{{ arcnode.get_absolute_url }}">{% trans "Cancel" %}</a>
+<button type="submit">{% trans "Move" %}</button>
+    </form>
+{% endblock %}

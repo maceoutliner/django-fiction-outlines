@@ -1,0 +1,14 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Instance of " %}{{ location_instance.location.name }}{% trans " for outline: " %}{{ location_instance.outline.title }}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Instance of "%}<a href="{{ location_instance.get_absolute_url }}{{ location_instance.location.name }}</a>{% trans " for outline: "%}<a href="{{ location_instance.outline.get_absolute_url }}">{{ location_instance.outline.title }}</a></h2>
+
+<dl>
+<dt>{% trans "Added: " %}</dt><dd>{{ location_instance.created }}</dd>
+<dt>{% trans "Modified: " %}</dt><dd>{{ location_instance.modified %}</dd>
+</dl>
+
+<p><a href="{{ location_instance.location.get_absolute_url }}">{% trans "Back to location details" %}</a></p>
+{% endblock %}

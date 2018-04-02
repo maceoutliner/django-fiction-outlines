@@ -1,0 +1,24 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Your locations" %}{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'fiction_outlines:location_create' %}">Create Location</a>
+
+<ul>
+    {% for location in location_list %}
+
+    <li><a href="{{ location.get_absolute_url }}">{{ location.name }}</a> [{% trans "Series: " %}{% for series in location.series.all %}<a href="{{ series.get_absolute_url }}">{{ series.title }}</a{% empty %}{% trans "None"%}, {% endfor %}{% blocktrans count outlines=location.locationinstance_set.all|length %}One outline{% plural %}{{ outlines }} outlines{% endblocktrans %}]
+
+        <p>{{ location.description|truncatewords:50 }}</p>
+    </li>
+
+        {% empty %}
+    
+    <li>{% trans "You don't have any locations defined yet. Would you like to " %}<a href="{% url 'fiction_outlines:location_create' %}">{% trans "create one" %}</a>?</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

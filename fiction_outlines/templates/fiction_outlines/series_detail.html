@@ -1,0 +1,49 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{{ series.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ series.title }}</h2>
+
+<h3>{% trans "Description" %}</h3>
+
+<p>{{ series.description }}</p>
+
+<strong>{% trans "Tags: "%}</strong>
+<ul class='tag_list'>
+    {% for tag in series.tags %}
+    <li>{{ tag }}</li>
+    {% empty %}
+    <li>{% trans "None" %}</li>
+    {% endfor %}
+</ul>
+
+<h3>{% trans "Outlines" %}</h3>
+<ul>
+{% for outline in series.outline_set.all %}
+<li><a href="{{ outline.get_absolute_url }}">{{ outline.title }}</a></li>
+    {% empty %}
+    <li>{% trans "No outlines" %}</li>
+    {% endfor %}
+</ul>
+
+<h3>{% trans "Characters" %}</h3>
+<ul>
+    {% for character in series.character_set.all %}
+    <li><a href="{{ character.get_absolute_url }}">{{ character.name }}</a></li>
+    {% empty %}
+    <li>{% trans "No characters" %}</li>
+    {% endfor %}
+</ul>
+
+<h3>{% trans "Locations" %}</h3>
+<ul>
+    {% for location in series.location_set.all %}
+    <li><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+    {% empty %}
+    <li>{% trans "No locations" %}</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'fiction_outlines:series_list' %}">{% trans "Back to series list" %}</a></p>
+{% endblock %}

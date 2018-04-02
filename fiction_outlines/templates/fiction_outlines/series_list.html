@@ -1,0 +1,21 @@
+{% extends "fiction_outlines/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Your series" %}{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'fiction_outlines:series_create' %}">Create Series</a>
+
+<ul>
+    {% for series in series_list %}
+
+    <li><a href="{{ series.get_absolute_url }}">{{ series.name }}</a> [{% blocktrans count outlines=series.outline_set.all|length %}One outline{% plural %}{{ outlines }} outlines{% endblocktrans %}, {% blocktrans count characters=series.character_set.all|length %}{{ characters }} character{% plural %}{{ characters }} characters{% endblocktrans %}, {% blocktrans count locations=series.location_set.all|length %}and one location{% plural %}and {{ locations }} locations{% endblocktrans %}]</li>
+
+        {% empty %}
+    
+    <li>{% trans "You do not have any series defined yet. Would you like to " %}<a href="{% url 'fiction_outlines:series_create' %}">{% trans "create one" %}</a>?</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "fiction_outlines/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Delete arc item: " %}{{ arc.headline }}{% endblock %}
+
+{% block content %}
+{% if arcnode.arc_element_type == 'mile_hook' %}
+<h4>{% trans "Not allowed" %}</h4>
+<div class="warning callout">
+    <p>{% trans "You cannot delete the hook of an arc." %}</p>
+</div>
+{% elif arcnode.arc_element_type == 'mile_reso' %}
+<div class="warning callout">
+    <p>{% trans "You cannot delete the resolution of an arc." %}</p>
+</div>
+{% else %}
+<h4>{% trans "Are you sure?" %}</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class='warning callout'>
+        <p>{% trans "Are you sure you want to delete arc item " %}"{{ arcnode.headline }}" {% trans "for arc named " %}<em>{{ arcnode.arc.name }}</em>?</p>
+        <p>{% trans "This action will also affect the following records:" %}</p>
+        <ul>
+            {% if annotated_list %}
+            <li><strong>{% trans "The following child items WILL ALSO be deleted:" %}</strong>
+                
+                   
+                    {% for item, info in annotated_list %}
+                    {% if info.open %}
+                    <ul><li>
+                    {% else %}
+                    </li><li>
+                    {% endif %}
+                        {% if item == arcnode %}
+                        {% trans "This item" %}
+                        {% else %}
+                        <a href="{{ item.get_absolute_url }}">{{ item.headline }}</a>
+                        {% endif %}
+                    {% for close in info.close %}
+                        </li></ul>
+                    {% endfor %}
+                    {% endfor %}
+            </li>
+            {% endif %}
+            {% if arcnode.associated_characters %}
+            <li>{% blocktrans count characters=arcnode.associated_characters_set.all|length %}One character will no longer be associated with this item.{% plural %}{{ characters }} will no longer be associated with this item.{% endblocktrans %}</li>
+            {% endif %}
+            {% if arcnode.associated_locations %}
+            <li>{% blocktrans count locations=arcnode.associated_locations_set.all|length %}One location will no longer be associated with this item.{% plural %}{{ locations }} will no longer be associated with this item.{% endblocktrans %}</li>
+            {% endif %}
+            {% if arcnode.story_element_node %}
+            <li>{% trans "This item will no longer be associated with master outline item:" %} <a href=" {{ arcnode.story_element_node.get_absolute_url }}">{{ arcnode.story_element_node.name }}</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <a class='button' href="{{ arcnode.get_absolute_url %}">{% trans "Cancel" %}</a>
+    <button type='submit' class='button'>{% trans "Delete" %}</button>
+</form>
+{% endif %}
+
+{% endblock %}
