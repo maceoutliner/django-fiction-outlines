@@ -11,6 +11,10 @@ Django Fiction Outlines
 .. image:: https://coveralls.io/repos/github/maceoutliner/django-fiction-outlines/badge.svg?branch=master
         :target: https://coveralls.io/github/maceoutliner/django-fiction-outlines?branch=master
 
+.. image:: https://readthedocs.org/projects/django-fiction-outlines/badge/?version=latest
+:target: http://django-fiction-outlines.readthedocs.io/en/latest/?badge=latest
+:alt: Documentation Status
+
 A reusable Django app for managing fiction outlines. Part of the broader maceoutliner project.
 
 Documentation

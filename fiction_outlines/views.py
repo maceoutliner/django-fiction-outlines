@@ -48,7 +48,7 @@ class SeriesCreateView(LoginRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:series_detail', kwargs={'series': self.object.pk})
 
     def form_valid(self, form):
@@ -86,7 +86,7 @@ class SeriesUpdateView(LoginRequiredMixin, PermissionRequiredMixin, PrefetchRela
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:series_detail', kwargs={'series': self.object.id})
 
 
@@ -126,7 +126,7 @@ class CharacterCreateView(LoginRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:character_detail', kwargs={'character': self.object.pk})
 
     def get_form_kwargs(self):
@@ -167,7 +167,7 @@ class CharacterUpdateView(LoginRequiredMixin, PermissionRequiredMixin, PrefetchR
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:character_detail', kwargs={'character': self.object.pk})
 
     def get_form_kwargs(self):
@@ -248,7 +248,7 @@ class CharacterInstanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, g
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:character_instance_detail', kwargs={'characterint': self.object.pk})
 
     def get_form_kwargs(self):
@@ -295,7 +295,7 @@ class CharacterInstanceUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:character_instance_detail',
                             kwargs={'instance': self.object.pk, 'character': self.character})
 
@@ -339,7 +339,7 @@ class CharacterInstanceDeleteView(LoginRequiredMixin, PermissionRequiredMixin,
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:character_detail', kwargs={'character': self.character.pk})
 
 
@@ -382,7 +382,7 @@ class LocationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.ed
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:location_detail', kwargs={'location': self.object.pk})
 
     def get_form_kwargs(self):
@@ -402,7 +402,7 @@ class LocationCreateView(LoginRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:location_details', kwargs={'location': self.object.pk})
 
     def get_form_kwargs(self):
@@ -433,7 +433,7 @@ class LocationDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.De
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:location_list')
 
 
@@ -513,7 +513,7 @@ class LocationInstanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, ge
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:location_instance_detail',
                             kwargs={'location': self.location.pk, 'instance': self.object.pk})
 
@@ -543,7 +543,7 @@ class LocationInstanceUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:location_instance_detail',
                             kwargs={'instance': self.object.pk, 'location': self.location.pk})
 
@@ -585,7 +585,7 @@ class LocationInstanceDeleteView(LoginRequiredMixin, PermissionRequiredMixin,
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:location_details', kwargs={'location': self.location_id})
 
     def dispatch(self, request, *args, **kwargs):
@@ -640,7 +640,7 @@ class OutlineCreateView(LoginRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:outline_detail', kwargs={'outline': self.object.pk})
 
     def form_valid(self, form):
@@ -667,7 +667,7 @@ class OutlineUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.edi
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:outline_detail', kwargs={'outline': self.object.pk})
 
 
@@ -744,7 +744,7 @@ class ArcCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateV
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:arc_detail', kwargs={'outline': self.outline.pk, 'arc': self.object.pk})
 
     def dispatch(self, request, *args, **kwargs):
@@ -784,7 +784,7 @@ class ArcUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SelectRelatedMi
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:arc_detail', kwargs={'arc': self.object.pk})
 
 
@@ -801,7 +801,7 @@ class ArcDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteV
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:outline_detail', kwargs={'outline': self.outline.pk})
 
     def dispatch(self, request, *args, **kwargs):
@@ -856,7 +856,7 @@ class ArcNodeCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cre
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:arcnode_detail', kwargs={'outline': self.arc.outline.pk,
                                                                        'arc': self.arc.pk, 'arcnode': self.object.pk})
 
@@ -915,7 +915,7 @@ class ArcNodeUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SelectRelat
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return self.object.get_absolute_url()
 
     def get_form_kwargs(self):
@@ -956,7 +956,7 @@ class ArcNodeMoveView(LoginRequiredMixin, PermissionRequiredMixin, generic.edit.
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         url = self.object.get_absolute_url()
         logger.debug("Found success url of %s" % url)
         return url
@@ -1010,7 +1010,7 @@ class ArcNodeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SelectRelat
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:arc_detail',
                             kwargs={'outline': self.outline.pk, 'arc': self.arc.pk})
 
@@ -1061,7 +1061,7 @@ class StoryNodeCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.C
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:storynode_detail', kwargs={'outline': self.outline.pk,
                                                                          'storynode': self.object.pk})
 
@@ -1131,7 +1131,7 @@ class StoryNodeUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SelectRel
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:storynode_update', kwargs={'outline': self.object.outline.pk,
                                                                          'storynode': self.object.pk})
 
@@ -1214,7 +1214,7 @@ class StoryNodeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SelectRel
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return self.success_url  # pragma: no cover
         return reverse_lazy('fiction_outlines:outline_detail', kwargs={'outline': self.outline.pk})
 
     def dispatch(self, request, *args, **kwargs):
