@@ -1,5 +1,5 @@
 bumpversion>=0.5.3
-django-test-plus
+django-test-plus==1.0.22
 wheel>=0.30.0
 coverage>=4.4.1
 mock>=1.0.1
