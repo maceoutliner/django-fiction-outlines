@@ -245,6 +245,7 @@ class CharacterInstanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, g
     template_name = 'fiction_outlines/character_instance_create.html'
     form_class = forms.CharacterInstanceForm
     success_url = None
+    outline = None
 
     def get_success_url(self):
         if self.success_url:
@@ -256,7 +257,7 @@ class CharacterInstanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, g
         kwargs['character'] = self.character
         return kwargs
 
-    def dispatch(self, request, args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         self.character = get_object_or_404(Character, pk=kwargs['character'])
         return super().dispatch(request, *args, **kwargs)
 

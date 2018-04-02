@@ -470,6 +470,105 @@ class CharacterInstanceDetailTest(FictionOutlineViewTestCase):
             assert self.c1int == self.get_context('character_instance')
 
 
+class CharacterInstanceCreateTest(FictionOutlineViewTestCase):
+    '''
+    Test update view for character instance.
+    '''
+
+    def setUp(self):
+        super().setUp()
+        self.local_outline = Outline(title='Local Outline', description='Heeeeeeey', user=self.user1)
+        self.local_outline.save()
+
+    def test_requires_login(self):
+        '''
+        You have to be logged in.
+        '''
+        self.assertLoginRequired('fiction_outlines:character_instance_create',
+                                 character=self.c1.pk)
+
+    def test_object_permissions(self):
+        '''
+        Ensure users without permissions cannot access or change the record.
+        '''
+        for user in [self.user2, self.user3]:
+            with self.login(username=user.username):
+                self.get('fiction_outlines:character_instance_create',
+                         character=self.c1.pk)
+                self.response_302()
+                before_create = self.c1.characterinstance_set.count()
+                assert 'accounts/login' in self.last_response['location']
+                self.post('fiction_outlines:character_instance_create',
+                          character=self.c1.pk, data={
+                              'outline': self.local_outline.pk,
+                              'main_character': True,
+                              'pov_character': False,
+                              'protagonist': False,
+                              'antagonist': True,
+                              'obstacle': False,
+                              'villain': False,
+                          })
+                assert before_create == CharacterInstance.objects.filter(character=self.c1).count()
+
+    def test_invalid_form(self):
+        '''
+        Test authorized user trying to submit invalid outline choice, or duplicate outline choice.
+        '''
+        before_create = self.c1.characterinstance_set.count()
+        with self.login(username=self.user1.username):
+            self.post('fiction_outlines:character_instance_create',
+                      character=self.c1.pk, data={
+                          'outline': self.o3.pk,
+                          'main_character': True,
+                          'pov_character': False,
+                          'protagonist': False,
+                          'antagonist': True,
+                          'obstacle': False,
+                          'villain': False,
+                      })
+            self.response_200()
+            form = self.get_context('form')
+            assert len(form.errors) == 1
+            assert before_create == CharacterInstance.objects.filter(character=self.c1).count()
+            try:
+                with transaction.atomic():
+                    with pytest.raises(IntegrityError):
+                        self.post('fiction_outlines:character_instance_create',
+                                  character=self.c1.pk, data={
+                                      'outline': self.o2.pk,
+                                      'main_character': True,
+                                      'pov_character': False,
+                                      'protagonist': False,
+                                      'antagonist': True,
+                                      'obstacle': False,
+                                      'villain': False,
+                                  })
+            except IntegrityError:
+                pass
+            assert before_create == CharacterInstance.objects.filter(character=self.c1).count()
+
+    def test_valid_form(self):
+        '''
+        Ensure authorized user can make allowed changes.
+        '''
+        with self.login(username=self.user1.username):
+            self.assertGoodView('fiction_outlines:character_instance_create',
+                                character=self.c1.pk)
+            self.assertInContext('form')
+            before_create = self.c1.characterinstance_set.count()
+            self.post('fiction_outlines:character_instance_create',
+                      character=self.c1.pk, data={
+                          'outline': self.local_outline.pk,
+                          'main_character': True,
+                          'pov_character': False,
+                          'protagonist': False,
+                          'antagonist': True,
+                          'obstacle': False,
+                          'villain': False,
+                      })
+            assert CharacterInstance.objects.filter(character=self.c1).count() - before_create == 1
+
+
 class CharacterInstanceUpdateTest(FictionOutlineViewTestCase):
     '''
     Test update view for character instance.
