@@ -10,7 +10,7 @@ pytest-cov==2.5.1
 pytest-sugar==0.9.1
 pytest-xdist==1.22.2
 pytest==3.5.0
-pipenv
+pipenv==11.9.0
 pytest-flake8
 sphinx
 recommonmark
