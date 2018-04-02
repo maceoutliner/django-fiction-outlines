@@ -68,6 +68,12 @@ setup(
     license="BSD",
     zip_safe=False,
     keywords='django-fiction-outlines',
+    project_urls={
+        'Documentation': 'http://django-fiction-outlines.readthedocs.io/en/latest/index.html',
+        'Source': 'https://github.com/maceoutliner/django-fiction-outlines/',
+        'Issue Tracker': 'https://github.com/maceoutliner/django-fiction-outlines/issues',
+    },
+    python_requires='~=3.6',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Django',
@@ -75,7 +81,6 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
 )
