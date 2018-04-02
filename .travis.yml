@@ -10,7 +10,7 @@ env:
   matrix:
     - TOXENV=py36-django20
     - TOXENV=docs
-    - TOXENF=flake8-py3
+    - TOXENV=flake8-py3
 
 install:
         - pip install tox-travis
