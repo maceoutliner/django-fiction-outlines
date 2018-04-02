@@ -245,6 +245,7 @@ class CharacterInstanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, g
     template_name = 'fiction_outlines/character_instance_create.html'
     form_class = forms.CharacterInstanceForm
     success_url = None
+    outline = None
 
     def get_success_url(self):
         if self.success_url:
@@ -256,7 +257,7 @@ class CharacterInstanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, g
         kwargs['character'] = self.character
         return kwargs
 
-    def dispatch(self, request, args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         self.character = get_object_or_404(Character, pk=kwargs['character'])
         return super().dispatch(request, *args, **kwargs)
 
@@ -403,7 +404,7 @@ class LocationCreateView(LoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         if self.success_url:
             return self.success_url  # pragma: no cover
-        return reverse_lazy('fiction_outlines:location_details', kwargs={'location': self.object.pk})
+        return self.object.get_absolute_url()
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -519,6 +520,7 @@ class LocationInstanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, ge
 
     def form_valid(self, form):
         outline = form.instance.outline
+        form.instance.location = self.location
         if not (self.request.user.has_perm('fiction_outlines.edit_location', self.location) and
                 self.request.user.has_perm('fiction_outlines.edit_outline', outline)):
             return HttpResponseForbidden()
