@@ -24,5 +24,5 @@ The following functions are currently tied to the signals generated in ``fiction
 
 .. automethod:: fiction_outlines.receivers.validate_location_for_story_element
 
-.. automethod:: fiction_outlines.receivers.validate_generations_for_story_element
+.. automethod:: fiction_outlines.receivers.validate_generations_for_story_elements
 

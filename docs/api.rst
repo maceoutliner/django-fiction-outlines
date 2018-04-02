@@ -169,7 +169,7 @@ Tree models are Materialized Path trees descended from the `django-treebeard` pr
 
    This model represents the nodes of the tree that is used as the structure of the Arc_.
 
-.. automethod:: ArcelementNode.milestone_seq
+.. automethod:: ArcElementNode.milestone_seq
                 
    Cached property retrieving the derived milestone sequence number as it relates to 7PSS_.
 

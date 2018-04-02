@@ -116,9 +116,6 @@ For the most part, these operate as generic views and all the same functionality
 .. autoclass:: ArcDeleteView
    :show-inheritance:
 
-.. autoclass:: ArcNodeListView
-   :show-inheritance:
-
 .. autoclass:: ArcNodeDetailView
    :show-inheritance:
 
@@ -134,9 +131,6 @@ For the most part, these operate as generic views and all the same functionality
    Incorporates logic to ensure that if the node represents the Hook or Resolution of the :ref:`7PSS`, it cannot be deleted.
 
 .. autoclass:: ArcNodeMoveView
-   :show-inheritance:
-
-.. autoclass:: StoryNodeListView
    :show-inheritance:
 
 .. autoclass:: StoryNodeCreateView
