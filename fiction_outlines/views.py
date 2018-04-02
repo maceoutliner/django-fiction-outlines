@@ -403,7 +403,7 @@ class LocationCreateView(LoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         if self.success_url:
             return self.success_url  # pragma: no cover
-        return reverse_lazy('fiction_outlines:location_details', kwargs={'location': self.object.pk})
+        return self.object.get_absolute_url()
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

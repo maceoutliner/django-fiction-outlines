@@ -904,6 +904,46 @@ class LocationDetailViewTest(FictionOutlineViewTestCase):
             assert self.l1 == self.get_context('location')
 
 
+class LocationCreateTestCase(FictionOutlineViewTestCase):
+    '''
+    Tests for location creation view.
+    '''
+    def test_requires_login(self):
+        '''
+        You have to be logged in!
+        '''
+        self.assertLoginRequired('fiction_outlines:location_create')
+
+    def test_location_create(self):
+        '''
+        Test character creation form works, and that
+        users can't feed it invalid data.
+        '''
+        with self.login(username=self.user1.username):
+            self.assertGoodView('fiction_outlines:location_create')
+            before_create = Location.objects.filter(user=self.user1).count()
+            self.post('fiction_outlines:character_create', data={
+                'name': 'Margaritaville',
+                'description': 'Missing a shaker of salt.',
+                'tags': 'your dad, parrothead',
+                'series': self.s3.pk
+            })
+            self.response_200()
+            after_create = Location.objects.filter(user=self.user1).count()
+            assert before_create == after_create
+            form = self.get_context('form')
+            assert len(form.errors) == 1
+            self.post('fiction_outlines:location_create', data={
+                'name': 'Margaritaville',
+                'description': 'Missing a shaker of salt.',
+                'tags': 'your dad, parrothead',
+                'series': self.s1.pk
+            })
+            self.response_302()
+            assert Location.objects.filter(user=self.user1).count() - before_create == 1
+            assert 'Margaritaville' == Location.objects.filter(user=self.user1).latest('created').name
+
+
 class LocationUpdateTest(FictionOutlineViewTestCase):
     '''
     Tests for location update views.
