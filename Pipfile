@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 
-django = ">=2.0"
+Django = ">=2.0"
 django-model-utils = "*"
 pytz = "*"
 django-treebeard = "*"
@@ -18,7 +18,6 @@ django-braces = "*"
 
 [dev-packages]
 
-bumpversion = ">=0.5.3"
 django-test-plus = "*"
 wheel = ">=0.30.0"
 coverage = ">=4.4.1"
@@ -32,9 +31,8 @@ pytest-xdist = "*"
 pytest = "*"
 pipenv = "*"
 "pytest-flake8" = "*"
-sphinx = "*"
-recommonmark = "*"
-sphinx-rtd-theme = "*"
+Sphinx = "*"
+sphinx_rtd_theme = "*"
 
 
 [requires]
