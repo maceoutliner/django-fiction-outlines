@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 
-Django = ">=2.0"
+django = "*"
 django-model-utils = "*"
 pytz = "*"
 django-treebeard = "*"
@@ -31,10 +31,15 @@ pytest-xdist = "*"
 pytest = "*"
 pipenv = "*"
 "pytest-flake8" = "*"
-Sphinx = "*"
-sphinx_rtd_theme = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
 
 
 [requires]
 
 python = "3.6"
+
+
+[pipenv]
+
+keep_outdated = true
