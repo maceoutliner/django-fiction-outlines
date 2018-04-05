@@ -17,6 +17,9 @@ jobs:
             . .venv/bin/activate
             pip install -e . 
             pip install -r test_requirements.txt     
+      - run:
+          command: |
+            tox
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "test_requirements.txt" }}
           paths:
@@ -24,9 +27,6 @@ jobs:
             - ".tox"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.6/site-packages"
-      - run:
-          command: |
-            tox
       - store_artifacts:
           path: htmlcov
           destination: tr1
