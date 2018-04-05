@@ -23,6 +23,7 @@ clean-build: ## remove build artifacts
 	rm -fr *.egg-info
 	rm -fr .venv
 	rm -fr .tox
+	rm -rf htmlcov
 
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
