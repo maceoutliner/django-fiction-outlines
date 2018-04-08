@@ -207,7 +207,8 @@ class Character(TimeStampedModel):
     description = models.TextField(blank=True, null=True, help_text='Notes about the character to help you remember.')
     series = models.ManyToManyField('Series', blank=True,
                                     help_text='If the character is part of a series, consider referencing it here.')
-    tags = TaggableManager(through=UUIDCharacterTag, help_text='Tags associated with this character. Yay, taxonomy!')
+    tags = TaggableManager(through=UUIDCharacterTag, blank=True,
+                           help_text='Tags associated with this character. Yay, taxonomy!')
     user = models.ForeignKey(user_relation, on_delete=models.CASCADE,
                              help_text='The user that created this character.')
 
@@ -258,7 +259,7 @@ class Location(TimeStampedModel):
     name = models.CharField(max_length=255, db_index=True, help_text='Name of the location.')
     description = models.TextField(null=True, blank=True, help_text='Notes about the location to help you remember.')
     series = models.ManyToManyField('Series', blank=True, help_text='Series this location is associated with.')
-    tags = TaggableManager(through=UUIDLocationTag, help_text='Tags for this location.')
+    tags = TaggableManager(through=UUIDLocationTag, blank=True, help_text='Tags for this location.')
     user = models.ForeignKey(user_relation, on_delete=models.CASCADE, help_text='The user that created this location.')
 
     def __str__(self):
@@ -296,7 +297,7 @@ class Series (TimeStampedModel):
     title = models.CharField(max_length=255, db_index=True,
                              help_text="Name of the series. You can always change this later.")
     description = models.TextField(null=True, blank=True, help_text="Jot down a description about your series.")
-    tags = TaggableManager(through=UUIDOutlineTag, help_text='Tags for the series.')
+    tags = TaggableManager(through=UUIDOutlineTag, blank=True, help_text='Tags for the series.')
     user = models.ForeignKey(user_relation, on_delete=models.CASCADE, help_text='The user that created this Series.')
 
     def __str__(self):
@@ -304,6 +305,10 @@ class Series (TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse_lazy('fiction_outlines:series_detail', kwargs={'series': self.pk})
+
+    class Meta:
+        verbose_name = 'Series'
+        verbose_name_plural = 'Series'
 
 
 class Outline (TimeStampedModel):
@@ -320,7 +325,7 @@ class Outline (TimeStampedModel):
     )
     series = models.ForeignKey(Series, null=True, blank=True, on_delete=models.SET_NULL,
                                help_text='Belongs to series.')
-    tags = TaggableManager(through=UUIDOutlineTag, help_text='Tags for the outline.')
+    tags = TaggableManager(through=UUIDOutlineTag, blank=True, help_text='Tags for the outline.')
     user = models.ForeignKey(user_relation, on_delete=models.CASCADE,
                              help_text='The user that created this outline.')
 
