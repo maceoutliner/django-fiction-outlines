@@ -3,6 +3,7 @@ import logging
 from collections import OrderedDict
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, IntegrityError, transaction
+from django.db.models import Q
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -342,7 +343,12 @@ class Outline (TimeStampedModel):
         and arcs. For reference see:
         http://www.writingexcuses.com/2017/07/02/12-27-choosing-a-length/
         '''
-        characters = self.characterinstance_set.count()
+        characters = self.characterinstance_set.filter(
+            Q(main_character=True) |
+            Q(pov_character=True) |
+            Q(protagonist=True) |
+            Q(antagonist=True) |
+            Q(villain=True)).count()
         locations = self.locationinstance_set.count()
         arcs = self.arc_set.count()
         return ((characters + locations) * 750) * (1.5 * arcs)

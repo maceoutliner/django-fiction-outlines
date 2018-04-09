@@ -673,14 +673,18 @@ class OutlineEstimateTestCase(TestCase):
         self.loc1.save()
         self.loc2 = Location(name='Home', user=self.user1)
         self.loc2.save()
-        self.char1_int = CharacterInstance(character=self.char1, outline=self.ms1)
+        self.char1_int = CharacterInstance(character=self.char1, main_character=True, outline=self.ms1)
         self.char1_int.save()
-        self.char2_int = CharacterInstance(character=self.char2, outline=self.ms2)
+        self.char2_int = CharacterInstance(character=self.char2, main_character=True, outline=self.ms2)
         self.char2_int.save()
         self.char3 = Character(name="The shadow", user=self.user1)
         self.char3.save()
-        self.char3_int = CharacterInstance(character=self.char3, outline=self.ms2)
+        self.char3_int = CharacterInstance(character=self.char3, pov_character=True, outline=self.ms2)
         self.char3_int.save()
+        self.char_walkon = Character(name='Redshirt', user=self.user1)
+        self.char_walkon.save()
+        self.char_walkon_int = CharacterInstance(character=self.char_walkon, obstacle=True, outline=self.ms1)
+        self.char_walkon_int.save()
         self.loc1_int = LocationInstance(location=self.loc1, outline=self.ms1)
         self.loc1_int.save()
         self.loc2_int = LocationInstance(location=self.loc2, outline=self.ms2)
@@ -729,15 +733,15 @@ class OutlineEstimateTestCase(TestCase):
         self.ms2.refresh_from_db()
         assert self.ms2.length_estimate == ((2 + 2) * 750) * (1.5 * 2)
 
-    def test_add_character_instance(self):
+    def test_add_character_instance_important(self):
         '''
         Verify that adding a character instance increases estimate correctly.
         '''
         verified_length_ms1 = ((2 + 1) * 750) * (1.5 * 1)
-        verified_length_ms2 = ((3 + 2) * 750) * (1.5 * 1)
+        verified_length_ms2 = ((2 + 2) * 750) * (1.5 * 1)
         char4 = Character(name='Nerdy best friend', user=self.user1)
         char4.save()
-        char4_int = CharacterInstance(character=char4, outline=self.ms1)
+        char4_int = CharacterInstance(character=char4, main_character=True, outline=self.ms1)
         char4_int.save()
         char4_int2 = CharacterInstance(character=char4, outline=self.ms2)
         char4_int2.save()
