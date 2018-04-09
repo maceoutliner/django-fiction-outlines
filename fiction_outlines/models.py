@@ -3,6 +3,7 @@ import logging
 from collections import OrderedDict
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, IntegrityError, transaction
+from django.db.models import Q
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -263,7 +264,7 @@ class Location(TimeStampedModel):
     user = models.ForeignKey(user_relation, on_delete=models.CASCADE, help_text='The user that created this location.')
 
     def __str__(self):
-        return self.name
+        return self.name  # pragma: no cover
 
     def get_absolute_url(self):
         return reverse_lazy('fiction_outlines:location_detail', kwargs={'location': self.pk})
@@ -342,7 +343,12 @@ class Outline (TimeStampedModel):
         and arcs. For reference see:
         http://www.writingexcuses.com/2017/07/02/12-27-choosing-a-length/
         '''
-        characters = self.characterinstance_set.count()
+        characters = self.characterinstance_set.filter(
+            Q(main_character=True) |
+            Q(pov_character=True) |
+            Q(protagonist=True) |
+            Q(antagonist=True) |
+            Q(villain=True)).count()
         locations = self.locationinstance_set.count()
         arcs = self.arc_set.count()
         return ((characters + locations) * 750) * (1.5 * arcs)
@@ -354,7 +360,7 @@ class Outline (TimeStampedModel):
         '''
         try:
             return StoryElementNode.objects.get(outline=self, depth=1)
-        except ObjectDoesNotExist:
+        except ObjectDoesNotExist:  # pragma: no cover
             return None
 
     def refresh_from_db(self, *args, **kwargs):
@@ -379,11 +385,11 @@ class Outline (TimeStampedModel):
         arc = Arc(mace_type=mace_type, outline=self, name=name)
         arc.save()
         milestone_count = arc.generate_template_arc_tree()
-        if milestone_count == 7:
+        if milestone_count == 7:  # pragma: no cover
             arc.refresh_from_db()
             return arc
         else:
-            raise ArcIntegrityError('Something went wrong during arc template generation')
+            raise ArcIntegrityError('Something went wrong during arc template generation')  # pragma: no cover
 
     def validate_nesting(self):
         '''
@@ -804,7 +810,7 @@ class StoryElementNode(MP_Node):
         '''
         if self.depth == 1:
             logger.debug('Root node. Skipping.')
-            return 0
+            return 0  # pragma: no cover
         impact_bleed = {
             'mile': 0.5,  # A milestone extends it's influence by 50% per generation
             'tf_beat': 0.25,

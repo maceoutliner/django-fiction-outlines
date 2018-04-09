@@ -42,24 +42,24 @@ class OutlineMoveNodeForm(tforms.MoveNodeForm):
         that we have to embed the whole method in our class with a few small changes.
         '''
         root_node = kwargs.pop('root_node')
+        if not root_node:
+            raise KeyError(_('A root node must be specified'))  # pragma: no cover
         if isinstance(root_node, ArcElementNode):
             type = 'ArcElementNode'
         elif isinstance(root_node, StoryElementNode):
             type = 'StoryElementNode'
         else:
-            type = 'Unknown'
+            type = 'Unknown'  # pragma: no cover
         logger.debug("OutlineMoveNodeForm was fed a root node of type: %s - pk %s" % (type, root_node.pk))
-        if not root_node:
-            raise ValueError(_('A root_node must be specified.'))
         # Beginning ``treebeard`` boilerplate.
         opts = self._meta
-        if opts.model is None:
-            raise ValueError('forms.ModelForm has no class specified.')
+        if opts.model is None:  # pragma: no cover
+            raise ValueError('forms.ModelForm has no class specified.')  # pragma: no cover
 
         # Update the position choice field.
         self.is_sorted = getattr(opts.model, 'node_order_by', False)
-        if self.is_sorted:
-            choices_sort_mode = self.__class__.__position_choices_sorted
+        if self.is_sorted:  # pragma: no cover - We don't user this. Only there for backwards compat.
+            choices_sort_mode = self.__class__.__position_choices_sorted  # pragma: no cover
         else:
             choices_sort_mode = self.__class__.__position_choices_unsorted
         self.declared_fields['_position'].choices = choices_sort_mode
@@ -73,12 +73,12 @@ class OutlineMoveNodeForm(tforms.MoveNodeForm):
         # More ``treebeard`` boilerplate.
         # Put initial data  data for fields into a map, update map with initial data,
         # and pass this to the constructor.
-        if instance is None:
+        if instance is None:  # pragma: no cover
             initial_ = {}
         else:
             initial_ = self._get_position_ref_node(instance)
 
-        if initial is not None:
+        if initial is not None:  # pragma: no cover
             initial_.update(initial)
 
         forms.ModelForm.__init__(self, data, files, auto_id, prefix, initial_, error_class, label_suffix,
@@ -107,6 +107,8 @@ class CharacterInstanceForm(forms.ModelForm):
         if character:
             self.fields['outline'].queryset = Outline.objects.filter(
                 user=character.user)
+        else:
+            raise KeyError(_('character must be specified'))  # pragma: no cover
 
     class Meta:
         model = CharacterInstance
@@ -131,6 +133,8 @@ class LocationInstanceForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if location:
             self.fields['outline'].queryset = Outline.objects.filter(user=location.user)
+        else:
+            raise KeyError(_('location must be specified'))  # pragma: no cover
 
     class Meta:
         model = LocationInstance
@@ -172,6 +176,8 @@ class LocationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.fields['series'].queryset = Series.objects.filter(user=user)
+        else:
+            raise KeyError(_('Form must be instantiated with a user object.'))  # pragma: no cover
 
     class Meta:
         model = Location
@@ -193,6 +199,8 @@ class OutlineForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.fields['series'].queryset = Series.objects.filter(user=user)
+        else:
+            raise KeyError(_('Form must be instantiated with a user object.'))  # pragma: no cover
 
     class Meta:
         model = Outline
@@ -218,6 +226,8 @@ class ArcNodeForm(forms.ModelForm):
             self.fields['assoc_characters'].queryset = CharacterInstance.objects.filter(outline=outline)
             self.fields['assoc_locations'].queryset = LocationInstance.objects.filter(outline=outline)
             self.fields['story_element_node'].queryset = StoryElementNode.objects.filter(outline=outline, depth__gt=1)
+        else:
+            raise KeyError(_('form must be instantiated with an arc object.'))  # pragma: no cover
 
     class Meta:
         model = ArcElementNode
@@ -242,6 +252,8 @@ class StoryNodeForm(forms.ModelForm):
         if outline:
             self.fields['assoc_characters'].queryset = CharacterInstance.objects.filter(outline=outline)
             self.fields['assoc_locations'].queryset = LocationInstance.objects.filter(outline=outline)
+        else:
+            raise KeyError(_('Form must be isntantiated with an outline object.'))  # pragma: no cover
 
     class Meta:
         model = StoryElementNode
