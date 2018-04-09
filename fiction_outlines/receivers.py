@@ -25,7 +25,7 @@ def generate_headline_from_description(sender, instance, *args, **kwargs):
     '''
     lines = instance.description.split('\n')
     headline = truncatewords(lines[0], 20)
-    if headline[:4] == ' ...':
+    if headline[:-3] == '...':
         headline = truncatechars(headline.replace(' ...', ''), 250)  # Just in case the words exceed char limit.
     else:
         headline = truncatechars(headline, 250)

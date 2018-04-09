@@ -86,7 +86,7 @@ class ArcModelTest(TestCase):
         arc_hook.description = "This is my hook. There are many like it but this one is mine. I do wonder when the ghosts will come for all of us."  # noqa: E501
         arc_hook.save()
         assert arc_hook.headline == "This is my hook. There are many like it but this one is mine. I do wonder when the ghosts ..."  # noqa: E501
-        big_word_headline = '''superexpealodcious mokeyjkdsjfkdljdslkjsdjdljfd djklsdjdfjdsjsljfkdjsdsjsdljdkjflsdkjffsdf dfdadfdasfdsfsadd superexpealodcious mokeyjkdsjfkdljdslkjsdjdljfd djklsdjdfjdsjsljfkdjsdsjsdljdkjflsdkjffsdf dfdadfdasfdsfsadd superexpealodcious mokeyjkdsjfkdljdslkjsdjdljfd djklsdjdfjdsjsljfkdjsdsjsdljdkjflsdkjffsdf dfdadfdasfdsfsad'''  # noqa: E501
+        big_word_headline = '''superexpealodcious mokeyjkdsjfkdljdslkjsdjdljfd djklsdjdfjdsjsljfkdjsdsjsdljdkjflsdkjffsdf dfdadfdasfdsfsadd superexpealodcious mokeyjkdsjfkdljdslkjsdjdljfd djklsdjdfjdsjsljfkdjsdsjsdljdkjflsdkjffsdf dfdadfdasfdsfsadd superexpealodcious mokeyjkdsjfkdljdslkjsdjdljfd djklsdjdfjdsjsljfkdjsdsjsdljdkjflsdkjffsdf dfdadfdasfdsfsad jdkfjsdjfsdjf jkdfjsljasdlkjfsdjf jdklsjdslfjsdj dlkadjlkdsj jdlksjdjds kdsjlakdj jdfoojdjdlfi jflkjds;djs fjdskjalifejiel jsdklfjasljf;as'''  # noqa: E501
         expected_result = '''superexpealodcious mokeyjkdsjfkdljdslkjsdjdljfd djklsdjdfjdsjsljfkdjsdsjsdljdkjflsdkjffsdf dfdadfdasfdsfsadd superexpealodcious mokeyjkdsjfkdljdslkjsdjdljfd djklsdjdfjdsjsljfkdjsdsjsdljdkjflsdkjffsdf dfdadfdasfdsfsadd superexpealodcious mokeyjkdsj...'''  # noqa: E501
         arc_hook.description = big_word_headline
         arc_hook.save()

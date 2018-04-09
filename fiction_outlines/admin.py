@@ -7,48 +7,48 @@ from .models import Outline, Arc, ArcElementNode, StoryElementNode
 # Register your models here.
 
 
-class SeriesAdmin(admin.ModelAdmin):
+class SeriesAdmin(admin.ModelAdmin):  # pragma: no cover
     pass
 
 
-class CharacterAdmin(admin.ModelAdmin):
+class CharacterAdmin(admin.ModelAdmin):  # pragma: no cover
     pass
 
 
-class CharacterInstanceAdmin(admin.ModelAdmin):
+class CharacterInstanceAdmin(admin.ModelAdmin):  # pragma: no cover
     pass
 
 
-class LocationAdmin(admin.ModelAdmin):
+class LocationAdmin(admin.ModelAdmin):  # pragma: no cover
     pass
 
 
-class LocationInstanceAdmin(admin.ModelAdmin):
+class LocationInstanceAdmin(admin.ModelAdmin):  # pragma: no cover
     pass
 
 
-class OutlineAdmin(admin.ModelAdmin):
+class OutlineAdmin(admin.ModelAdmin):  # pragma: no cover
     pass
 
 
-class ArcAdmin(admin.ModelAdmin):
+class ArcAdmin(admin.ModelAdmin):  # pragma: no cover
     pass
 
 
-class ArcElementNodeAdmin(TreeAdmin):
-    form = movenodeform_factory(ArcElementNode)
+class ArcElementNodeAdmin(TreeAdmin):  # pragma: no cover
+    form = movenodeform_factory(ArcElementNode)  # pragma: no cover
 
 
-class StoryElementNodeAdmin(TreeAdmin):
-    form = movenodeform_factory(StoryElementNode)
+class StoryElementNodeAdmin(TreeAdmin):  # pragma: no cover
+    form = movenodeform_factory(StoryElementNode)  # pragma: no cover
 
 
-admin.site.register(Series, SeriesAdmin)
-admin.site.register(Character, CharacterAdmin)
-admin.site.register(CharacterInstance, CharacterInstanceAdmin)
-admin.site.register(Location, LocationAdmin)
-admin.site.register(LocationInstance, LocationInstanceAdmin)
-admin.site.register(Outline, OutlineAdmin)
-admin.site.register(Arc, ArcAdmin)
-admin.site.register(ArcElementNode, ArcElementNodeAdmin)
-admin.site.register(StoryElementNode, StoryElementNodeAdmin)
+admin.site.register(Series, SeriesAdmin)  # pragma: no cover
+admin.site.register(Character, CharacterAdmin)  # pragma: no cover
+admin.site.register(CharacterInstance, CharacterInstanceAdmin)  # pragma: no cover
+admin.site.register(Location, LocationAdmin)  # pragma: no cover
+admin.site.register(LocationInstance, LocationInstanceAdmin)  # pragma: no cover
+admin.site.register(Outline, OutlineAdmin)  # pragma: no cover
+admin.site.register(Arc, ArcAdmin)  # pragma: no cover
+admin.site.register(ArcElementNode, ArcElementNodeAdmin)  # pragma: no cover
+admin.site.register(StoryElementNode, StoryElementNodeAdmin)  # pragma: no cover

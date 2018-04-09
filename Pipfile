@@ -33,6 +33,7 @@ pipenv = "*"
 "pytest-flake8" = "*"
 sphinx = "*"
 sphinx-rtd-theme = "*"
+bumpversion = "*"
 
 
 [requires]
