@@ -3,6 +3,12 @@
 History
 -------
 
+**unreleased**
+++++++++++++++
+
+* Improvements to length estimate calculation.
+* Improvements to test coverage.
+
 0.1.4 (2018-04-07)
 ++++++++++++++++++
 
