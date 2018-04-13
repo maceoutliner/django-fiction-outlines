@@ -3,6 +3,12 @@
 History
 -------
 
+**unreleased**
+++++++++++++++
+
+* Add export functions. A view is provided for users to export outlines as either
+  OPML, JSON, or Markdown documents.
+
 0.1.5 (2018-04-09)
 +++++++++++++++++++++++++++
 

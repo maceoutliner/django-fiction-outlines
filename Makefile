@@ -24,6 +24,7 @@ clean-build: ## remove build artifacts
 	rm -fr .venv
 	rm -fr .tox
 	rm -rf htmlcov
+	rm tests/generated_xml_file.opml
 
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +

@@ -25,6 +25,7 @@ urlpatterns = [
     path('location/create/', views.LocationCreateView.as_view(), name='location_create'),
     path('outlines/', views.OutlineListView.as_view(), name='outline_list'),
     path('outline/<uuid:outline>/', views.OutlineDetailView.as_view(), name='outline_detail'),
+    path('outline/<uuid:outline>/export/<format>/', views.OutlineExport.as_view(), name='outline_export'),
     path('outline/<uuid:outline>/edit/', views.OutlineUpdateView.as_view(), name='outline_update'),
     path('outline/create/', views.OutlineCreateView.as_view(), name='outline_create'),
     path('outline/<uuid:outline>/delete/', views.OutlineDeleteView.as_view(), name='outline_delete'),

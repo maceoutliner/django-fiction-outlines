@@ -46,6 +46,8 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
+tests/test_compare_xml_file.opml
+tests/generated_xml_file.opml
 
 # Translations
 *.mo

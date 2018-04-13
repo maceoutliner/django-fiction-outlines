@@ -2,9 +2,12 @@
 Views for fiction_outlines.
 '''
 import logging
+from django.conf import settings
+from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponseForbidden, Http404, JsonResponse
 from django.db import IntegrityError, transaction
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -20,8 +23,7 @@ from . import forms
 
 # Create your views here.
 
-logger = logging.getLogger('fiction_outlines.view')
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger('fiction_outlines')
 
 
 class SeriesListView(LoginRequiredMixin, generic.ListView):
@@ -1187,10 +1189,10 @@ class StoryNodeMoveView(StoryNodeUpdateView):
         try:
             with transaction.atomic():
                 form.save()
-        except InvalidPosition as IP:
+        except InvalidPosition:
             form.add_error('_position', _("This is not a permitted position"))
             return self.form_invalid(form)
-        except InvalidMoveToDescendant as IMD:
+        except InvalidMoveToDescendant:
             form.add_error('_position', _("You cannot move an item to be a sibling or child of its own descendant."))
             return self.form_invalid(form)
         except PathOverflow as PO:
@@ -1222,3 +1224,132 @@ class StoryNodeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SelectRel
     def dispatch(self, request, *args, **kwargs):
         self.outline = get_object_or_404(Outline, pk=kwargs['outline'])
         return super().dispatch(request, *args, **kwargs)
+
+
+class OutlineExport(LoginRequiredMixin, PermissionRequiredMixin, SelectRelatedMixin,
+                    PrefetchRelatedMixin, generic.DetailView):
+    '''
+    Generic view to get an export of an outline record.
+
+    Takes a url kwarg of ``outline`` as the pk of the :class:`fiction_outlines.models.Outline`
+    The url kwarg of ``format`` determines the type returned.
+    Current supported formats are ``opml``, ``json``, or ``md``.
+    '''
+    model = Outline
+    permission_required = 'fiction_outlines.view_outline'
+    template_name = 'fiction_outlines/outline.opml'
+    pk_url_kwarg = 'outline'
+    context_object_name = 'outline'
+    select_related = ['series', 'user']
+    prefetch_related = ['arc_set', 'storyelementnode_set', 'characterinstance_set', 'characterinstance_set__character',
+                        'locationinstance_set', 'locationinstance_set__location', 'tags']
+    default_format = 'json'
+
+    def dispatch(self, request, *args, **kwargs):
+        logger.debug('Entering view!')
+        self.format = self.default_format
+        if 'format' in kwargs.keys():
+            logger.debug('format was specified as {}'.format(kwargs['format']))
+            self.format = kwargs['format']
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['annotated_list'] = StoryElementNode.get_annotated_list(self.object.story_tree_root)
+        return context
+
+    def return_opml_response(self, context, **response_kwargs):
+        '''
+        Returns export data as an opml file.
+        '''
+        self.template_name = 'fiction_outlines/outline.opml'
+        response = super().render_to_response(context, content_type='text/xml', **response_kwargs)
+        response['Content-Disposition'] = 'attachment; filename="{}.opml"'.format(slugify(self.object.title))
+        return response
+
+    def not_implemented(self, context, **response_kwargs):
+        '''
+        If DEBUG: raise NotImplemented Exception.
+        If not, raise 404.
+        :raises:`django.http.Http404` if production environment.
+        :raises:`NotImplementedError` if ``settings.DEBUG`` is True
+        '''
+        if settings.DEBUG:
+            raise NotImplementedError(_('This export type ({})is not yet supported.'.format(self.format)))
+        raise Http404
+
+    def return_json_response(self, context, **request_kwargs):
+        '''
+        Returns detailed outline structure as :class:`django.http.JsonResponse`.
+        '''
+        outline_dict = model_to_dict(self.object)
+        logger.debug(str(outline_dict))
+        logger.debug("Attepting to switch tags from queryset to name...")
+        logger.debug(str(self.object.tags.names()))
+        outline_dict.pop('tags')
+        outline_dict['tags'] = list(self.object.tags.names())
+        logger.debug(str(outline_dict))
+        if self.object.series:
+            outline_dict['series'] = model_to_dict(self.object.series)
+            outline_dict['series']['tags'] = list(self.object.series.tags.names())
+            logger.debug('Adding series... {}'.format(outline_dict['series']))
+        if self.object.characterinstance_set.count():
+            outline_dict['characters'] = []
+            for cint in self.object.characterinstance_set.all():
+                character_dict = model_to_dict(cint.character)
+                character_dict['outline_key'] = cint.pk
+                character_dict['tags'] = list(cint.character.tags.names())
+                character_dict['role_properties'] = {
+                    'main_character': cint.main_character,
+                    'pov_character': cint.pov_character,
+                    'protagonist': cint.protagonist,
+                    'antagonist': cint.antagonist,
+                    'villain': cint.villain,
+                    'obstacle': cint.obstacle,
+                }
+                outline_dict['characters'].append(character_dict)
+        if self.object.locationinstance_set.count():
+            outline_dict['locations'] = []
+            for lint in self.object.locationinstance_set.all():
+                location_dict = model_to_dict(lint.location)
+                location_dict['tags'] = list(lint.location.tags.names())
+                location_dict['outline_key'] = lint.pk
+                outline_dict['locations'].append(location_dict)
+        if self.object.arc_set.count():
+            outline_dict['arcs'] = []
+            for arc in self.object.arc_set.all():
+                arc_dict = model_to_dict(arc)
+                arc_dict['nodes'] = ArcElementNode.dump_bulk(parent=arc.arc_root_node)
+                outline_dict['arcs'].append(arc_dict)
+        outline_dict['story_tree'] = StoryElementNode.dump_bulk(parent=self.object.story_tree_root)
+        logger.debug("Sending response via JSON: {}".format(outline_dict))
+        response = JsonResponse(outline_dict)
+        response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(slugify(self.object.title))
+        return response
+
+    def return_md_response(self, context, **response_kwargs):
+        '''
+        Returns the outline as a single markdown file.
+        '''
+        self.template_name = 'fiction_outlines/outline.md'
+        response = super().render_to_response(context, content_type='text/markdown; charset="UTF-8"',
+                                              **response_kwargs)
+        response['Content-Disposition'] = 'attachment; filename="{}.md"'.format(slugify(self.object.title))
+        return response
+
+    def render_to_response(self, context, **response_kwargs):
+        '''
+        Compares requested format to supported formats and routes the response.
+
+        :attribute switcher: A dictionary of format types and their respective response methods.
+        '''
+        switcher = {
+            'json': self.return_json_response,
+            'opml': self.return_opml_response,
+            'md': self.return_md_response,
+            'textbundle': self.not_implemented,
+            'xlsx': self.not_implemented,
+        }
+        if self.format not in switcher.keys():
+            return self.not_implemented(context, **response_kwargs)
+        return switcher[self.format](context, **response_kwargs)
