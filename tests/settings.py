@@ -66,5 +66,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'fiction_outlines': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     },
 }

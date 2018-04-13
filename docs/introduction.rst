@@ -34,6 +34,7 @@ Features
 * Validates that arcs and outlines follow principles of MACE nesting, and seven point story structure.
 * Calculates estimated length of final manuscript based on complexity of outline.
 * Objects are associated with users to enable permission management.
+* Export outlines to OPML, JSON, or Markdown documents.
 
   * NOTE: Django Fiction Outlines uses an object permission manager called `django-rules`_. This allows extremely flexible permission schemes without crufting up your database or model logic. By default, `fiction_outlines` will restrict any view or editing to the owner of the object. 
     

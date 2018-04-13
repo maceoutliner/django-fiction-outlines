@@ -92,6 +92,14 @@ For the most part, these operate as generic views and all the same functionality
 .. autoclass:: OutlineDetailView
    :show-inheritance:
 
+.. autoclass:: OutlineExport
+   :show-inheritance:
+
+   A view that can return a dowloadable export of an outline with structure preserved.
+   Formats supported: OPML, JSON, Markdown
+   For fullest fidelity of data, JSON is the best choice. OPML and Markdown necessarily
+   force the application to strip out quite a bit of nested data.
+
 .. autoclass:: OutlineUpdateView
    :show-inheritance:
 

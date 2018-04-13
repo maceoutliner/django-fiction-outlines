@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<opml version="2.0">
+  <head>
+    <title>{{ outline.title }}</title>
+    {% if outline.series %}
+    <series>{{ outline.series.title }}</series>
+    {% endif %}
+    {% if outline.tags.count > 0 %}
+    <tags>{{ outline.tags.names }}</tags>
+    {% endif %}
+    <ownerName>{% if outline.user.name %}{{ outline.user.name }}{% else %}{{ outline.user.username }}{% endif %}</ownerName>
+    {% if outline.user.homepage_url %}
+    <ownerId>{{ outline.user.homepage_url }}</ownerId>
+    {% endif %}
+    <dateCreated>{{ outline.created|date:"DATETIME_FORMAT" }}</dateCreated>
+    <dateModified>{{ outline.modified|date:"DATETIME_FORMAT" }}</dateModified>
+  </head>
+  <body>
+    <outline text="{{ outline.title }}" _notes="{{ outline.description }}">
+      {% for item, info in annotated_list|slice:"1:" %}
+      {% if item.get_children.count %}
+      <outline text="{{ item.name }}" _notes="{{ item.description }}">
+        {% else %}
+      <outline text="{{ item.name }}" _notes="{{ item.description }}" />
+      {% endif %}
+      {% for close in info.close %}
+      {% if close < info.level %}
+      </outline>
+      {% endif %}
+      {% endfor %} 
+      {% endfor %}
+    </body>
+</opml>
