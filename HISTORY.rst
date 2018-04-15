@@ -3,8 +3,8 @@
 History
 -------
 
-**unreleased**
-++++++++++++++
+0.2.1 (2018-04-14)
++++++++++++++++++++++++++++
 
 * Add created and modified auto timestamps to all tree models.
 
