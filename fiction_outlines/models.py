@@ -657,7 +657,7 @@ class Arc (TimeStampedModel):
         return None
 
 
-class ArcElementNode(MP_Node):
+class ArcElementNode(TimeStampedModel, MP_Node):
     '''
     Tree nodes for the arc elements.
     '''
@@ -750,7 +750,7 @@ class ArcElementNode(MP_Node):
 ArcElementNode._meta.get_field('path').max_length = 1024
 
 
-class StoryElementNode(MP_Node):
+class StoryElementNode(TimeStampedModel, MP_Node):
     '''
     Tree nodes for the overall outline of the story.
     '''
