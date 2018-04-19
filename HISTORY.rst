@@ -6,8 +6,8 @@ History
 **unreleased**
 ++++++++++++++
 
-* Bug fix: switch to maceoutliner fork of django-model-utils until
-  my bug fix for created/modified timestamps is merged upstream.
+* Bug fix: override model_utils until my submitted 
+  bug fix for created/modified timestamps is merged upstream.
 
 0.2.1 (2018-04-14)
 +++++++++++++++++++++++++++
