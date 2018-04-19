@@ -1,18 +1,23 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [packages]
+
 django = "*"
-django-model-utils = "*"
 pytz = "*"
 django-treebeard = "*"
 django-taggit = "*"
 rules = "*"
 django-braces = "*"
+django-model-utils = "*"
+
 
 [dev-packages]
+
 django-test-plus = "*"
 wheel = "*"
 coverage = ">=4.4.1"
@@ -30,8 +35,12 @@ sphinx = "*"
 sphinx-rtd-theme = "*"
 bumpversion = "*"
 
+
 [requires]
+
 python = "3.6"
 
+
 [pipenv]
+
 keep_outdated = true

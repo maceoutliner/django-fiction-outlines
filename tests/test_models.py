@@ -8,6 +8,16 @@ from django.db.utils import IntegrityError
 from django.forms.models import model_to_dict
 from fiction_outlines.models import Arc, Character, CharacterInstance, Location, LocationInstance, ArcIntegrityError
 from fiction_outlines.models import ArcElementNode, Outline, StoryElementNode, ARC_NODE_ELEMENT_DEFINITIONS
+from .models import TimeStamp
+
+
+class TimeStampedModelTest(TestCase):
+    '''
+    Test our changes to TimeStampedModel.
+    '''
+    def test_create_time(self):
+        t1 = TimeStamp.objects.create()
+        assert t1.created == t1.modified
 
 
 # Create your tests here.

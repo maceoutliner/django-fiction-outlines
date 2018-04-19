@@ -1,6 +1,7 @@
 import uuid
 import logging
 from collections import OrderedDict
+from django.db.models.functions import Now
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, IntegrityError, transaction
 from django.db.models import Q
@@ -8,7 +9,8 @@ from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.utils.functional import cached_property
-from model_utils.models import TimeStampedModel
+from model_utils.models import TimeStampedModel as LegacyTimeStampedModel
+from model_utils.fields import AutoCreatedField, AutoLastModifiedField as LegacyAutoLastModifiedField
 from treebeard.mp_tree import MP_Node
 from taggit.managers import TaggableManager
 from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
@@ -18,6 +20,35 @@ logger = logging.getLogger('MS_Models')
 logger.setLevel('DEBUG')
 
 # Create your models here
+
+
+class AutoLastModifiedField(LegacyAutoLastModifiedField):
+    '''
+    Override of the default model_utils behavior to ensure
+    that when an instance is created that the modifed and created will
+    be the same.
+    '''
+    def pre_save(self, model_instance, add):
+        if (hasattr(model_instance, 'created') and
+            model_instance._meta.get_field('created').__class__ ==
+            AutoCreatedField and
+            not getattr(model_instance, 'pk')):  # noqa: E129
+            value = getattr(model_instance, 'created')
+        else:
+            value = Now()
+        setattr(model_instance, self.attname, value)
+        return value
+
+
+class TimeStampedModel(LegacyTimeStampedModel):
+    '''
+    Override the model_utils behavior to use our new field.
+    '''
+    modified = AutoLastModifiedField()
+
+    class Meta:
+        abstract = True
+
 
 user_relation = settings.AUTH_USER_MODEL
 
