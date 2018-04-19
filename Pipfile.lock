@@ -16,6 +16,19 @@
             "python_version": "3.6",
             "sys_platform": "darwin"
         },
+        "host-environment-markers": {
+            "implementation_name": "cpython",
+            "implementation_version": "3.6.4",
+            "os_name": "posix",
+            "platform_machine": "x86_64",
+            "platform_python_implementation": "CPython",
+            "platform_release": "17.5.0",
+            "platform_system": "Darwin",
+            "platform_version": "Darwin Kernel Version 17.5.0: Mon Mar  5 22:24:32 PST 2018; root:xnu-4570.51.1~1/RELEASE_X86_64",
+            "python_full_version": "3.6.4",
+            "python_version": "3.6",
+            "sys_platform": "darwin"
+        },
         "pipfile-spec": 6,
         "requires": {
             "python": "3.6"
@@ -44,9 +57,11 @@
             "version": "==1.12.0"
         },
         "django-model-utils": {
-            "editable": true,
-            "git": "https://github.com/maceoutliner/django-model-utils.git",
-            "ref": "1259f0a35d25e2d9b702002044d8a8f1195d1afe"
+            "hashes": [
+                "sha256:4356fad5f6fc9910da865fbf9371f9c2e028606dff2bbd8e32e67569260e530d",
+                "sha256:a9baa7de943b4e8afa61728ce8c42ce99e88cc87d40e74df2b060a78d22c0f5c"
+            ],
+            "version": "==3.1.1"
         },
         "django-taggit": {
             "hashes": [

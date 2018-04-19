@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "taggit",
     "rules.apps.AutodiscoverRulesConfig",
     "fiction_outlines",
+    "tests",
 ]
 
 SITE_ID = 1

@@ -13,7 +13,7 @@ django-treebeard = "*"
 django-taggit = "*"
 rules = "*"
 django-braces = "*"
-django_model_utils = {git = "https://github.com/maceoutliner/django-model-utils.git", editable = true, ref = "1259f0a35d25e2d9b702002044d8a8f1195d1afe"}
+django-model-utils = "*"
 
 
 [dev-packages]
