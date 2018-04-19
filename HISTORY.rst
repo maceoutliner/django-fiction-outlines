@@ -3,8 +3,8 @@
 History
 -------
 
-**unreleased**
-++++++++++++++
+0.2.2 (2018-04-19)
++++++++++++++++++++++++++++
 
 * Bug fix: override model_utils until my submitted 
   bug fix for created/modified timestamps is merged upstream.
