@@ -58,7 +58,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'django-braces>=1.12.0',
-        'git+https://github.com/maceoutliner/django-model-utils.git@1259f0a35d25e2d9b702002044d8a8f1195d1afe#egg=django_model_utils',  # noqa: E501
+        'django-model-utils>=3.1.1',
         'django-taggit>=0.22.2',
         'django-treebeard>=4.2.1',
         'django>=2.0',
