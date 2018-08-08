@@ -9,7 +9,7 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
       - restore_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "test_requirements.txt" }}
+          key: deps9-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "test_requirements.txt" }}
       - run:
           command: |
             sudo pip install --upgrade pip
@@ -22,7 +22,7 @@ jobs:
           command: |
             tox
       - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "test_requirements.txt" }}
+          key: deps9-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "test_requirements.txt" }}
           paths:
             - ".venv"
             - ".tox"
