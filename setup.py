@@ -59,7 +59,7 @@ setup(
     install_requires=[
         'django-braces>=1.12.0',
         'django-model-utils>=3.1.1',
-        'django-taggit>=0.22.2',
+        'django-taggit>=0.23.0',
         'django-treebeard>=4.2.1',
         'django>=2.0',
         'pytz',
