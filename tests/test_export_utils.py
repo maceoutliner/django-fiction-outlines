@@ -1,6 +1,7 @@
 import io
 import json
 import re
+import django
 import xml.etree.ElementTree as ET
 from test_plus import TestCase
 from fiction_outlines.models import Outline, StoryElementNode, Series
@@ -56,6 +57,11 @@ class AbstractExportTestCase(TestCase):
         self.scene7 = get_node(self.chap4.pk).add_child(name='Showdown', description='A big battle with the villain!',
                                                         story_element_type='ss')
 
+    def response_forbidden(self):
+        if django.VERSION < (2, 1):
+            return self.response_302()
+        return self.response_403()
+
 
 class OPMLExportTestCase(AbstractExportTestCase):
     '''
@@ -80,8 +86,7 @@ class OPMLExportTestCase(AbstractExportTestCase):
         for user in self.bad_users:
             with self.login(username=user.username):
                 self.get(self.view_string, **self.url_kwargs)
-                self.response_302()
-                assert 'accounts/login' in self.last_response['location']
+                self.response_forbidden()
 
     def test_valid_user(self):
         '''
@@ -122,8 +127,7 @@ class JSONExportTestCase(AbstractExportTestCase):
         for user in self.bad_users:
             with self.login(username=user.username):
                 self.get(self.view_string, **self.url_kwargs)
-                self.response_302()
-                assert 'accounts/login' in self.last_response['location']
+                self.response_forbidden()
 
     def test_authorized_user(self):
         '''
@@ -167,8 +171,7 @@ class MDExportTest(AbstractExportTestCase):
         for user in self.bad_users:
             with self.login(username=user.username):
                 self.get(self.view_string, **self.url_kwargs)
-                self.response_302()
-                assert 'accounts/login' in self.last_response['location']
+                self.response_forbidden()
 
     def test_authorized_user(self):
         '''

@@ -3,15 +3,16 @@ jobs:
   build:
     working_directory: ~/django-fiction-outlines
     docker:
-      - image: circleci/python:3.6.4
+      - image: circleci/python:3.7
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
       - restore_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "test_requirements.txt" }}
+          key: deps9-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "test_requirements.txt" }}
       - run:
           command: |
+            sudo pip install --upgrade pip
             sudo pip install tox
             python3 -m venv .venv
             . .venv/bin/activate
@@ -21,12 +22,12 @@ jobs:
           command: |
             tox
       - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "test_requirements.txt" }}
+          key: deps9-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "test_requirements.txt" }}
           paths:
             - ".venv"
             - ".tox"
             - "/usr/local/bin"
-            - "/usr/local/lib/python3.6/site-packages"
+            - "/usr/local/lib/python3.7/site-packages"
       - store_artifacts:
           path: htmlcov
           destination: tr1
