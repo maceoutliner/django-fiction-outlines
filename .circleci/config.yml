@@ -12,6 +12,7 @@ jobs:
           key: deps9-{{ .Branch }}-{{ checksum "test_requirements.txt" }}
       - run:
           command: |
+            sudo pip install --upgrade pip
             sudo pip install tox
             python3 -m venv .venv
             . .venv/bin/activate
