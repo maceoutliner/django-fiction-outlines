@@ -5,7 +5,7 @@ Recieving methods for signals go here.
 import logging
 from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.db import IntegrityError
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import truncatewords, truncatechars
 from django.dispatch import receiver
 from .models import Outline, StoryElementNode, ArcElementNode, CharacterInstance, LocationInstance
@@ -25,8 +25,8 @@ def generate_headline_from_description(sender, instance, *args, **kwargs):
     '''
     lines = instance.description.split('\n')
     headline = truncatewords(lines[0], 20)
-    if headline[:-3] == '...':
-        headline = truncatechars(headline.replace(' ...', ''), 250)  # Just in case the words exceed char limit.
+    if headline[:-1] == '…':
+        headline = truncatechars(headline.replace(' …', ''), 250)  # Just in case the words exceed char limit.
     else:
         headline = truncatechars(headline, 250)
     instance.headline = headline

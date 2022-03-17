@@ -3,6 +3,12 @@
 History
 -------
 
+0.4.0 (2022-03-17)
+++++++++++++++++++
+
+* Now requires Django > 3.2. Compatible through Django 4.0
+* Compatible with Python 3.9 and 3.10.
+
 
 0.3.1 (2018-10-16)
 +++++++++++++++++++++++++++ 

@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "django-fiction-outlines"
+version = "0.4.0"
+description = "A reusable Django app for managing fiction outlines. Part of the broader maceoutliner project."
+authors = ["Daniel Andrlik <daniel@andrlik.org>"]
+license = "BSD-3-Clause"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+rules = "^3.2.1"
+Django = ">=3.2,<4.1"
+django-treebeard = "^4.5.1"
+django-taggit = "^2.1.0"
+django-model-utils = "^4.2.0"
+django-braces = "^1.15.0"
+
+[tool.poetry.dev-dependencies]
+pytest-django = "^4.5.2"
+Sphinx = "^4.4.0"
+sphinx-rtd-theme = "^1.0.0"
+flake8 = "^4.0.1"
+pytest-sugar = "^0.9.4"
+pytest-cov = "^3.0.0"
+pytest-xdist = "^2.5.0"
+mock = "^4.0.3"
+django-test-plus = "^2.2.0"
+bumpversion = "^0.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

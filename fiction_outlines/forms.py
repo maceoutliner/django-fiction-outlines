@@ -1,6 +1,6 @@
 import logging
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from treebeard import forms as tforms
 from .models import CharacterInstance, LocationInstance, Outline
 from .models import Character, Location, Series, ArcElementNode, StoryElementNode
