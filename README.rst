@@ -5,7 +5,7 @@ Django Fiction Outlines
 .. image:: https://badge.fury.io/py/django-fiction-outlines.svg
     :target: https://badge.fury.io/py/django-fiction-outlines
 
-.. image:: https://github.com/maceoutliner/django-fiction-outlines/actions/workflows/tests.yml/badge.svg
+.. image:: https://github.com/maceoutliner/django-fiction-outlines/actions/workflows/tests.yml/badge.svg?branch=master
    :target: https://github.com/maceoutliner/django-fiction-outlines/actions/workflows/tests.yml
 
 .. image:: https://coveralls.io/repos/github/maceoutliner/django-fiction-outlines/badge.svg?branch=master
