@@ -8,4 +8,4 @@ tree_manipulation: Sent when either the ArcElementNode or StoryElementNode trees
 
 from django.dispatch import Signal
 
-tree_manipulation = Signal(providing_args=['action', 'target_node_type', 'target_node', 'pos'])
+tree_manipulation = Signal()

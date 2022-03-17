@@ -7,7 +7,7 @@ from django.db import models, IntegrityError, transaction
 from django.db.models import Q
 from django.conf import settings
 from django.urls import reverse_lazy
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
 from model_utils.models import TimeStampedModel as LegacyTimeStampedModel
 from model_utils.fields import AutoCreatedField, AutoLastModifiedField as LegacyAutoLastModifiedField
@@ -822,7 +822,7 @@ class StoryElementNode(TimeStampedModel, MP_Node):
         qs = self.assoc_characters.all()
         for node in self.get_descendants():
             qs2 = node.assoc_characters.all()
-            qs = qs.union(qs2).distinct('pk')
+            qs = qs.union(qs2)
         return qs
 
     @property
@@ -932,7 +932,7 @@ class StoryElementNode(TimeStampedModel, MP_Node):
         qs = self.assoc_locations.all()
         for node in self.get_descendants():
             qs2 = node.assoc_locations.all()
-            qs = qs.union(qs2).distinct('pk')
+            qs = qs.union(qs2)
         return qs
 
     def move(self, target, pos=None):

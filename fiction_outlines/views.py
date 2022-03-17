@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponseForbidden, Http404, JsonResponse
 from django.db import IntegrityError, transaction
 from django.utils.text import slugify
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
@@ -1023,11 +1023,24 @@ class ArcNodeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SelectRelat
         self.arc = get_object_or_404(Arc, pk=kwargs['arc'])
         return super().dispatch(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
+    def node_deletion_safe(self):
         self.object = self.get_object()
+        logger.debug("Checking to see if arc element is the hook or resolution...")
         if self.object.arc_element_type in ['mile_hook', 'mile_reso']:
+            logger.debug("It IS the hook or resolution. Render an error message and do not delete.")
+            return False
+        logger.debug("It is not a hook or resolution, deletion can proceed.")
+        return True
+
+    def delete(self, request, *args, **kwargs):
+        if not self.node_deletion_safe():
             return render(self.request, self.template_name, context=self.get_context_data(), content_type='text/html')
         return super().delete(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        if not self.node_deletion_safe():
+            return render(self.request, self.template_name, context=self.get_context_data(), content_type='text/html')
+        return super().form_valid(form)
 
 
 class StoryNodeDetailView(LoginRequiredMixin, PermissionRequiredMixin, SelectRelatedMixin,
